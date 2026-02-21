@@ -18,26 +18,27 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Force la redirection vers les modules ESM de TFJS
-      '@tensorflow/tfjs-core': '@tensorflow/tfjs-core/dist/index.js',
     },
   },
   optimizeDeps: {
-    include: [
-      '@tensorflow/tfjs',
-      '@tensorflow/tfjs-core',
-      '@tensorflow/tfjs-converter',
-      '@tensorflow/tfjs-backend-webgl'
-    ],
+    // On force Vite à inclure tout le paquet tfjs d'un coup
+    include: ['@tensorflow/tfjs'],
+    // On exclut les sous-paquets de l'optimisation pour éviter les conflits de chemins
+    exclude: ['@tensorflow/tfjs-core', '@tensorflow/tfjs-converter']
   },
   build: {
     commonjsOptions: {
       include: [/node_modules/],
-      transformMixedEsModules: true, // Important pour TFJS
+      transformMixedEsModules: true,
     },
     rollupOptions: {
-      // Si Rollup bloque encore, on peut lui dire de traiter ces modules comme externes
-      // Mais essayons d'abord avec le flag transformMixedEsModules
-    }
+      // On aide Rollup à ignorer les avertissements circulaires fréquents avec TFJS
+      onwarn(warning, warn) {
+        if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('@tensorflow')) {
+          return;
+        }
+        warn(warning);
+      },
+    },
   },
 }));
