@@ -4,8 +4,12 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // FORCE les chemins relatifs pour éviter les erreurs /vercel/path0/
-  base: './', 
+  // On remet la base à '/' pour Vercel
+  base: "/",
+  server: {
+    host: "::",
+    port: 8080,
+  },
   plugins: [
     react(),
     mode === "development" && componentTagger(),
@@ -16,17 +20,11 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: 'dist',
-    // Désactive les sourcemaps qui pointent vers les dossiers locaux du serveur
-    sourcemap: false, 
-    assetsDir: 'assets',
-    rollupOptions: {
-      output: {
-        // Force un nom de fichier simple pour éviter les mauvaises résolutions de modules
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`
-      },
+    outDir: "dist",
+    commonjsOptions: {
+      // TensorFlow en a absolument besoin pour fonctionner dans le navigateur
+      transformMixedEsModules: true,
     },
   },
+  // On laisse Bun gérer l'optimisation par défaut
 }));
