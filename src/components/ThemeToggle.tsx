@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme, type Theme } from "./ThemeContext";
-import { Sun, Moon, Monitor } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 
 // ─── Mini toggle button for BottomNav or headers ──────────────────────────────
 export const ThemeToggleButton = () => {
@@ -24,7 +24,6 @@ export const ThemeToggleButton = () => {
         flexShrink: 0,
       }}
     >
-      {/* Track fill */}
       <div style={{
         position: "absolute", inset: 2,
         borderRadius: 11,
@@ -34,7 +33,6 @@ export const ThemeToggleButton = () => {
         opacity: 0.2,
         transition: "opacity 0.3s",
       }}/>
-      {/* Thumb */}
       <div style={{
         width: 20, height: 20, borderRadius: "50%",
         background: isDark
@@ -74,7 +72,6 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
           to   { opacity:1; transform:translateY(0); }
         }
       `}</style>
-      {/* Backdrop */}
       <div
         onClick={onClose}
         style={{
@@ -84,7 +81,6 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
           animation: "fadeIn 0.2s ease both",
         }}
       />
-      {/* Sheet */}
       <div style={{
         position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 111,
         display: "flex", justifyContent: "center",
@@ -99,7 +95,6 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
           padding: "20px 20px 40px",
           boxShadow: "0 -20px 60px rgba(0,0,0,0.3)",
         }}>
-          {/* Handle */}
           <div style={{ width:40, height:4, borderRadius:2, background:"var(--border)", margin:"0 auto 20px" }}/>
 
           <div style={{
@@ -119,7 +114,7 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
                   onClick={() => { setTheme(value); onClose(); }}
                   style={{
                     display:"flex", alignItems:"center", gap:14,
-                    padding:"16px 18px", borderRadius:16, border:"none",
+                    padding:"16px 18px", borderRadius:16,
                     background: active ? `${color}15` : "var(--bg-secondary)",
                     border: `1px solid ${active ? `${color}40` : "var(--border)"}`,
                     cursor:"pointer",
@@ -129,7 +124,6 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
                     width:"100%", textAlign:"left" as const,
                   }}
                 >
-                  {/* Icon bubble */}
                   <div style={{
                     width:46, height:46, borderRadius:14, flexShrink:0,
                     background: active ? `${color}20` : "var(--bg-card)",
@@ -140,12 +134,10 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
                   }}>
                     <Icon size={20} style={{ color: active ? color : "var(--text-muted)", transition:"color 0.2s" }}/>
                   </div>
-                  {/* Text */}
                   <div style={{ flex:1 }}>
                     <div style={{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:700, color: active ? color : "var(--text-primary)", transition:"color 0.2s" }}>{label}</div>
                     <div style={{ fontSize:12, color:"var(--text-muted)", marginTop:2 }}>{sub}</div>
                   </div>
-                  {/* Check */}
                   {active && (
                     <div style={{
                       width:22, height:22, borderRadius:"50%", flexShrink:0,
@@ -163,7 +155,6 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
             })}
           </div>
 
-          {/* Preview strip */}
           <div style={{
             marginTop:20, padding:"14px 16px", borderRadius:14,
             background:"var(--bg-card)", border:`1px solid var(--border)`,
@@ -188,7 +179,7 @@ export const ThemePanel = ({ onClose }: { onClose: () => void }) => {
       </div>
       <style>{`
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        @keyframes popIn  { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+        @keyframes popIn   { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
       `}</style>
     </>
   );
@@ -205,7 +196,7 @@ const ThemeToggle = () => {
         onClick={() => setOpen(true)}
         aria-label="Changer le thème"
         style={{
-          width:38, height:38, borderRadius:11, border:"none",
+          width:38, height:38, borderRadius:11,
           background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
           border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
           display:"grid", placeItems:"center", cursor:"pointer",
