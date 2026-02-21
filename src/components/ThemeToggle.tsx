@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTheme, type Theme } from "./ThemeContext";
+import { useTheme, type Theme } from "../context/ThemeContext";
 import { Sun, Moon } from "lucide-react";
 
 // ─── Mini toggle button for BottomNav or headers ──────────────────────────────
