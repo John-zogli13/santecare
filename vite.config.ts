@@ -4,13 +4,8 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-    hmr: {
-      overlay: false,
-    },
-  },
+  // FORCE les chemins relatifs pour éviter les erreurs /vercel/path0/
+  base: './', 
   plugins: [
     react(),
     mode === "development" && componentTagger(),
@@ -18,27 +13,19 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // On force la résolution des imports internes vers le paquet principal
-      "@tensorflow/tfjs-core": path.resolve(__dirname, "node_modules/@tensorflow/tfjs-core"),
     },
-  },
-  optimizeDeps: {
-    include: ['@tensorflow/tfjs', '@tensorflow/tfjs-core', '@tensorflow/tfjs-converter'],
   },
   build: {
     outDir: 'dist',
-    // Empêche la création de liens vers les dossiers système de Vercel
-    sourcemap: false,
-    commonjsOptions: {
-      include: [/node_modules/],
-      transformMixedEsModules: true,
-    },
+    // Désactive les sourcemaps qui pointent vers les dossiers locaux du serveur
+    sourcemap: false, 
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
-        // Force le regroupement de TensorFlow dans un seul fichier pour éviter les erreurs de chemins
-        manualChunks: {
-          tensorflow: ['@tensorflow/tfjs', '@tensorflow/tfjs-core', '@tensorflow/tfjs-converter'],
-        },
+        // Force un nom de fichier simple pour éviter les mauvaises résolutions de modules
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`
       },
     },
   },
