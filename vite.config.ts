@@ -18,25 +18,26 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // FORCE TOUTE L'IMPORTATION TENSORFLOW VERS LE POINT D'ENTRÉE UNIQUE
-      "@tensorflow/tfjs-core/dist/register_all_gradients": "@tensorflow/tfjs",
-      "@tensorflow/tfjs-core": "@tensorflow/tfjs",
+      // On force la résolution des imports internes vers le paquet principal
+      "@tensorflow/tfjs-core": path.resolve(__dirname, "node_modules/@tensorflow/tfjs-core"),
     },
+  },
+  optimizeDeps: {
+    include: ['@tensorflow/tfjs', '@tensorflow/tfjs-core', '@tensorflow/tfjs-converter'],
   },
   build: {
     outDir: 'dist',
-    sourcemap: false, // Désactiver pour éviter les fuites de chemins système
+    // Empêche la création de liens vers les dossiers système de Vercel
+    sourcemap: false,
     commonjsOptions: {
       include: [/node_modules/],
       transformMixedEsModules: true,
     },
     rollupOptions: {
       output: {
-        // Évite que les noms de fichiers contiennent des chemins absolus
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
+        // Force le regroupement de TensorFlow dans un seul fichier pour éviter les erreurs de chemins
+        manualChunks: {
+          tensorflow: ['@tensorflow/tfjs', '@tensorflow/tfjs-core', '@tensorflow/tfjs-converter'],
         },
       },
     },
