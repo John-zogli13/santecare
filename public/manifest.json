@@ -1,0 +1,16 @@
+{
+  "name": "Assistant Santé Quotidien",
+  "short_name": "Santé",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f7f6",
+  "theme_color": "#1a9c8b",
+  "description": "Suivez votre sommeil, hydratation et santé cardiovasculaire.",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
