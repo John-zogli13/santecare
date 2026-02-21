@@ -18,25 +18,26 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // FORCE TOUTE L'IMPORTATION TENSORFLOW VERS LE POINT D'ENTRÉE UNIQUE
+      "@tensorflow/tfjs-core/dist/register_all_gradients": "@tensorflow/tfjs",
+      "@tensorflow/tfjs-core": "@tensorflow/tfjs",
     },
   },
   build: {
     outDir: 'dist',
+    sourcemap: false, // Désactiver pour éviter les fuites de chemins système
     commonjsOptions: {
       include: [/node_modules/],
       transformMixedEsModules: true,
     },
     rollupOptions: {
-      // SOLUTION CRITIQUE ICI :
-      // On ignore les sous-modules profonds qui bloquent le build
-      external: [
-        /@tensorflow\/tfjs-core\/dist\/.*/,
-      ],
-      onwarn(warning, warn) {
-        if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('@tensorflow')) {
-          return;
-        }
-        warn(warning);
+      output: {
+        // Évite que les noms de fichiers contiennent des chemins absolus
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
       },
     },
   },
