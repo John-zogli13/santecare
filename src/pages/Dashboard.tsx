@@ -268,7 +268,7 @@ const Dashboard = () => {
     alt="SantéCare"
     style={{ height:48,width:"auto",objectFit:"contain",
       filter:"drop-shadow(0 0 14px rgba(34,197,94,0.3))" }}
-    onError={(e) => { (e.currentTarget as HTMLImageElement).src="/santé care logo.png"; }}
+    onError={(e) => { (e.currentTarget as HTMLImageElement).src="/logo.png"; }}
   />
 </motion.div>
 

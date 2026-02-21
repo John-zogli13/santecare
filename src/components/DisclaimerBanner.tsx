@@ -127,7 +127,7 @@ const DisclaimerBanner = () => {
                   animation: "float 3.5s ease infinite",
                 }}
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = "/santé care logo.png";
+                  (e.currentTarget as HTMLImageElement).src = "/logo.png";
                 }}
               />
             </motion.div>

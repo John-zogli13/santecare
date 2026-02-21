@@ -456,7 +456,7 @@ export default function SleepPage() {
         <div className={`sleep-header ${mounted ? "mounted" : ""}`}>
   {/* Logo centré */}
   <div style={{ display: "flex", justifyContent: "center", width: "100%", marginBottom: 10 }}>
-    <img src="/santé care logo.png" alt="SantéCare" style={{ height: 40, width: "auto", objectFit: "contain", filter: "drop-shadow(0 0 10px rgba(129,140,248,0.3))" }} />
+    <img src="/logo.png" alt="SantéCare" style={{ height: 40, width: "auto", objectFit: "contain", filter: "drop-shadow(0 0 10px rgba(129,140,248,0.3))" }} />
   </div>
   {/* Titre module */}
   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

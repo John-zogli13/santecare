@@ -30,7 +30,7 @@ const PageShell = ({ children, title, icon }: PageShellProps) => {
               filter: "drop-shadow(0 0 14px rgba(34,197,94,0.3))",
             }}
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = "/santé care logo.png";
+              (e.currentTarget as HTMLImageElement).src = "/logo.png";
             }}
           />
         </motion.div>
