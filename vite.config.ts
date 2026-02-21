@@ -20,19 +20,18 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  optimizeDeps: {
-    // On force Vite à inclure tout le paquet tfjs d'un coup
-    include: ['@tensorflow/tfjs'],
-    // On exclut les sous-paquets de l'optimisation pour éviter les conflits de chemins
-    exclude: ['@tensorflow/tfjs-core', '@tensorflow/tfjs-converter']
-  },
   build: {
+    outDir: 'dist',
     commonjsOptions: {
       include: [/node_modules/],
       transformMixedEsModules: true,
     },
     rollupOptions: {
-      // On aide Rollup à ignorer les avertissements circulaires fréquents avec TFJS
+      // SOLUTION CRITIQUE ICI :
+      // On ignore les sous-modules profonds qui bloquent le build
+      external: [
+        /@tensorflow\/tfjs-core\/dist\/.*/,
+      ],
       onwarn(warning, warn) {
         if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('@tensorflow')) {
           return;
