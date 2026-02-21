@@ -6,95 +6,82 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
-
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-
     --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
-
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-
     --accent: 221 83% 53%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 221 83% 53%;
-
     --radius: 1.5rem;
 
-    /* Module colors - plus pastel */
+    /* Module colors - light */
     --food: 30 80% 55%;
     --food-bg: 30 100% 97%;
-    
     --sleep: 250 60% 65%;
     --sleep-bg: 250 100% 97%;
-    
     --hydration: 200 80% 60%;
     --hydration-bg: 200 100% 97%;
-    
     --cardio: 0 65% 65%;
     --cardio-bg: 0 100% 97%;
-    
     --supplements: 145 55% 52%;
     --supplements-bg: 145 100% 97%;
+
+    /* ── Variables custom pour les pages redesignées (light) ── */
+    --bg-root:        240 20% 97%;
+    --nav-bg:         0 0% 100% / 0.92;
+    --header-bg:      240 20% 97% / 0.90;
+    --overlay-bg:     0 0% 0% / 0.45;
   }
 
   .dark {
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
-
     --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 217 91% 60%;
     --primary-foreground: 222 47% 11%;
-
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-
     --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217 33% 17%;
     --input: 217 33% 17%;
     --ring: 224 76% 48%;
 
-    /* Module colors - version dark */
+    /* Module colors - dark */
     --food: 30 80% 60%;
     --food-bg: 30 30% 15%;
-    
     --sleep: 250 60% 70%;
     --sleep-bg: 250 30% 15%;
-    
     --hydration: 200 80% 65%;
     --hydration-bg: 200 30% 15%;
-    
     --cardio: 0 65% 70%;
     --cardio-bg: 0 30% 15%;
-    
     --supplements: 145 55% 62%;
     --supplements-bg: 145 30% 15%;
+
+    /* ── Variables custom pour les pages redesignées (dark) ── */
+    --bg-root:        215 50% 5%;
+    --nav-bg:         215 50% 5% / 0.82;
+    --header-bg:      215 50% 5% / 0.85;
+    --overlay-bg:     0 0% 0% / 0.70;
   }
 }
 
@@ -109,7 +96,32 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Masquer les scrollbars tout en gardant la fonctionnalité */
+  /* ── Transition fluide sur le changement de thème ────────────────────────── */
+  /* On cible uniquement les propriétés visuelles pour ne pas casser les
+     animations existantes (transforms, opacity sur les animations Framer etc.) */
+  html {
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+  }
+
+  /* Exclure les éléments qui ont leurs propres animations critiques */
+  [class*="animate-"],
+  [style*="animation"],
+  svg circle,
+  svg path {
+    transition-duration: 0ms;
+  }
+
+  /* Scrollbar masquée */
   .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -123,45 +135,42 @@
   .glass-card {
     @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
   }
-  
   .dark .glass-card {
     @apply bg-black/50 backdrop-blur-xl border border-white/10;
   }
-
   .macros-grid {
     @apply grid grid-cols-4 gap-2 p-4;
   }
-
   .macro-item {
     @apply flex flex-col items-center gap-1;
   }
-
   .macro-value {
     @apply text-lg font-bold text-card-foreground;
   }
-
   .macro-label {
     @apply text-xs text-muted-foreground;
   }
 }
 
 @keyframes scan-line {
-  0% {
-    top: 0;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
+  0%   { top: 0;    opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
 }
-
 .animate-scan-line {
   animation: scan-line 2s ease-in-out infinite;
+}
+
+/* ── Scrollbar thémée (globale) ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 2px;
+}
+
+/* ── Sélection de texte ─────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(129, 140, 248, 0.25);
 }

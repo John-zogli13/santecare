@@ -92,6 +92,9 @@ const DisclaimerBanner = () => {
               padding: "28px 24px 40px",
               position: "relative",
               overflow: "hidden",
+              // ── seul changement : rendre le panneau scrollable ──
+              maxHeight: "90dvh",
+              overflowY: "auto",
             }}
           >
             {/* Background glow */}
