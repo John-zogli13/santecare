@@ -12,28 +12,10 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [
-    react(),
-    mode === "development" && componentTagger(),
-  ].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // --- AJOUT POUR TENSORFLOW ---
-  optimizeDeps: {
-    include: [
-      '@tensorflow/tfjs',
-      '@tensorflow/tfjs-core',
-      '@tensorflow/tfjs-converter',
-      '@tensorflow/tfjs-backend-webgl'
-    ],
-  },
-  build: {
-    commonjsOptions: {
-      include: [/node_modules/],
-    },
-  },
-  // -----------------------------
 }));
